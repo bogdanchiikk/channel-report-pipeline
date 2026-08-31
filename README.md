@@ -8,17 +8,20 @@
 
 Автор: Юлия Богданова
 
+## Что в презентации
+
+Файл `output/report.pptx` содержит пять слайдов: титул, KPI (старт, финиш, пришло, ушло, чистый прирост), график подписчиков, график joined vs left, топ-5 постов по просмотрам.
+
+Папка `output/` в git не попадает. Пути к JSON и к выходной папке задаются в `config.example.json`.
+
 ## Запуск
 
-Нужен Python 3.10+. В папке репозитория:
+Нужен Python 3.10+. Из корня репозитория:
 
-```powershell
+```bash
 pip install -r requirements.txt
-python src/metrics.py
-python src/charts.py
-python src/report.py
+python -m src.metrics
+python -m src.charts
+python -m src.report
+pytest
 ```
-
-Готовый файл: `output/report.pptx`.
-
-Папка `output/` в git не попадает: презентация собирается у себя на компьютере из учебного JSON `data/samples/channel_month.json`.
