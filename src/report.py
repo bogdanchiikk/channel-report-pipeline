@@ -1,11 +1,10 @@
-import json
 from pathlib import Path
 
 from pptx import Presentation
 from pptx.util import Inches, Pt
 
-from charts import plot_joins_unsubs, plot_subscribers
-from metrics import load_metrics
+from src.charts import plot_joins_unsubs, plot_subscribers
+from src.metrics import load_config, load_metrics
 
 
 def _add_title(slide, text, top=0.35):
@@ -48,8 +47,9 @@ def build_report(sample_path: str, output_dir: str) -> Path:
         [
             f"Start: {metrics['start_subs']}",
             f"End: {metrics['end_subs']}",
+            f"Joined: {metrics['gross_joined']}",
+            f"Left: {metrics['unsubs']}",
             f"Net growth: {metrics['net_growth']}",
-            f"Unsubs: {metrics['unsubs']}",
             f"Posts: {len(metrics['posts'])}",
         ],
     )
@@ -81,6 +81,6 @@ def build_report(sample_path: str, output_dir: str) -> Path:
 
 
 if __name__ == "__main__":
-    config = json.loads(Path("config.example.json").read_text(encoding="utf-8"))
+    config = load_config()
     path = build_report(config["sample"], config["output_dir"])
     print("saved", path)

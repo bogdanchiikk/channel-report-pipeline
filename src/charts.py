@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def plot_subscribers(daily: pd.DataFrame, out_path) -> Path:
+def plot_subscribers(daily: pd.DataFrame, out_path: str | Path) -> Path:
     """График числа подписчиков по дням. Пустая таблица — подпись No data, без ошибки."""
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -29,7 +29,7 @@ def plot_subscribers(daily: pd.DataFrame, out_path) -> Path:
     return out_path
 
 
-def plot_joins_unsubs(daily: pd.DataFrame, out_path) -> Path:
+def plot_joins_unsubs(daily: pd.DataFrame, out_path: str | Path) -> Path:
     """Столбики: сколько пришло (joined) и ушло (left) в каждый день."""
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -62,10 +62,12 @@ def plot_joins_unsubs(daily: pd.DataFrame, out_path) -> Path:
 
 
 if __name__ == "__main__":
-    from metrics import load_metrics
+    from src.metrics import load_config, load_metrics
 
-    metrics = load_metrics("data/samples/channel_month.json")
-    p1 = plot_subscribers(metrics["daily"], "output/subscribers.png")
-    p2 = plot_joins_unsubs(metrics["daily"], "output/joins_unsubs.png")
+    config = load_config()
+    metrics = load_metrics(config["sample"])
+    out = Path(config["output_dir"])
+    p1 = plot_subscribers(metrics["daily"], out / "subscribers.png")
+    p2 = plot_joins_unsubs(metrics["daily"], out / "joins_unsubs.png")
     print("saved", p1)
     print("saved", p2)
